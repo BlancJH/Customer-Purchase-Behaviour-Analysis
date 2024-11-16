@@ -184,11 +184,8 @@ class Visualisation():
         # Calculate Pearson correlation and p-value
         correlation, p_value = stats.pearsonr(group_1, group_2)
 
-        # Set print options to show more decimals
-        np.set_printoptions(precision=10)
-
-        print(f"Correlation: {correlation:.10f}")
-        print(f"p-value: {p_value:.10f}")
+        print(f"Correlation: {correlation}")
+        print(f"p-value: {p_value}")
 
         # Interpret the result
         alpha = 0.05
