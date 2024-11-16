@@ -173,7 +173,7 @@ class Visualisation():
         Calculate p value test.
         
         Args:
-            data (DataFrame): The dataset containing the data.
+            df (DataFrame): The dataset containing the data.
             group1 (str): The column of data group for p value test.
             group2 (str): The column of data group fro p value test.
         """
@@ -184,8 +184,11 @@ class Visualisation():
         # Calculate Pearson correlation and p-value
         correlation, p_value = stats.pearsonr(group_1, group_2)
 
-        print(f"Correlation: {correlation}")
-        print(f"p-value: {p_value}")
+        # Set print options to show more decimals
+        np.set_printoptions(precision=10)
+
+        print(f"Correlation: {correlation:.10f}")
+        print(f"p-value: {p_value:.10f}")
 
         # Interpret the result
         alpha = 0.05
