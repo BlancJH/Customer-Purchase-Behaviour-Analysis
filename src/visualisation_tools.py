@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import pandas as pd
+import scipy.stats as stats
 
 class Visualisation():
 
@@ -165,3 +166,30 @@ class Visualisation():
         if y_column:
             plt.ylabel(y_column)
         plt.show()
+
+    @staticmethod
+    def p_value_calculator(df, group1, group2):
+        """
+        Calculate p value test.
+        
+        Args:
+            data (DataFrame): The dataset containing the data.
+            group1 (str): The column of data group for p value test.
+            group2 (str): The column of data group fro p value test.
+        """
+
+        group_1 = df[group1]
+        group_2 = df[group2]
+
+        # Calculate Pearson correlation and p-value
+        correlation, p_value = stats.pearsonr(group_1, group_2)
+
+        print(f"Correlation: {correlation}")
+        print(f"p-value: {p_value}")
+
+        # Interpret the result
+        alpha = 0.05
+        if p_value < alpha:
+            print("Reject the null hypothesis: Significant correlation.")
+        else:
+            print("Fail to reject the null hypothesis: No significant correlation.")
