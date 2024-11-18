@@ -193,3 +193,37 @@ class Visualisation():
             print("Reject the null hypothesis: Significant correlation.")
         else:
             print("Fail to reject the null hypothesis: No significant correlation.")
+
+    @staticmethod
+    def chi_square_contribution(df, feature1, feature2):
+        """
+        Calculate and plot Chi-square contributions for the relationship between two categorical features.
+
+        Args:
+            df (DataFrame): The dataframe containing the data.
+            feature1 (str): The first categorical feature.
+            feature2 (str): The second categorical feature.
+        """
+        # Create a cross-tabulation
+        crosstab = pd.crosstab(df[feature1], df[feature2])
+
+        # Perform Chi-square test
+        chi2_stat, p, dof, expected = stats.chi2_contingency(crosstab)
+
+        # Calculate Chi-square contributions
+        chi2_contributions = (crosstab - expected) ** 2 / expected
+
+        # Plot the contributions
+        plt.figure(figsize=(10, 6))
+        sns.heatmap(chi2_contributions, annot=True, cmap='Reds', fmt='.2f')
+        plt.title('Chi-Square Contribution Heatmap')
+        plt.xlabel(feature2)
+        plt.ylabel(feature1)
+        plt.show()
+
+        print(f"Chi-square statistic: {chi2_stat}")
+        print(f"p-value: {p}")
+        if p < 0.05:
+            print("There is a significant relationship between the features.")
+        else:
+            print("There is no significant relationship between the features.")
