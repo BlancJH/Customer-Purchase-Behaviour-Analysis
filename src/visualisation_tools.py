@@ -50,7 +50,7 @@ class Visualisation():
         return outliers
 
     @staticmethod
-    def create_histogram(df, feature, bins=30, color='skyblue'):
+    def create_histogram(df, feature, bins=30, color='skyblue', kde=False, kde_color='red'):
         """
         Plots a histogram for a given feature.
 
@@ -59,9 +59,12 @@ class Visualisation():
             feature (str): The column name for which the histogram will be plotted.
             bins (int): Number of bins for the histogram.
             color (str): Color of the bars in the histogram.
+            kde (bool): Whether to add a KDE line.
+            kde_color (str): Color of the KDE line.
         """
-        plt.figure(figsize=(10, 5))
-        plt.hist(df[feature], bins=bins, color=color, edgecolor='black')
+        sns.displot(df, x=feature, bins=bins, color=color, kde=kde)
+        if kde:
+            plt.gca().lines[-1].set_color(kde_color)  # Modify the KDE line color
         plt.title(f'Distribution of {feature}')
         plt.xlabel(feature)
         plt.ylabel('Frequency')
