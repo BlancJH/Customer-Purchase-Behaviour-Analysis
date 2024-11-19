@@ -227,3 +227,31 @@ class Visualisation():
             print("There is a significant relationship between the features.")
         else:
             print("There is no significant relationship between the features.")
+
+    @staticmethod
+    def anova_test(df, numerical_variable, categorical_variable):
+        """
+        Perform an ANOVA test to determine if there is a significant difference in the means of a numerical variable across different categories.
+
+        Args:
+            df (DataFrame): The dataframe containing the data.
+            numerical_variable (str): The column name of the numerical variable to be tested.
+            categorical_variable (str): The column name of the categorical variable to group by.
+
+        Prints:
+            F-statistic and p-value from the ANOVA test.
+            A message indicating whether there is a significant difference in means across the categories.
+        """
+
+        # Separate the numerical data by category
+        groups = [df[df[categorical_variable] == category][numerical_variable] for category in df[categorical_variable].unique()]
+
+        # Perform ANOVA test
+        f_stat, p_value = stats.f_oneway(*groups)
+
+        print(f"F-statistic: {f_stat}, p-value: {p_value}")
+
+        if p_value < 0.05:
+            print("There is a significant difference in means across the categories.")
+        else:
+            print("There is no significant difference in means across the categories.")
