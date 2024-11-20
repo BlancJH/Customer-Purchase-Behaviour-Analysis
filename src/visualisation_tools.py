@@ -62,14 +62,25 @@ class Visualisation():
             kde (bool): Whether to add a KDE line.
             kde_color (str): Color of the KDE line.
         """
-        sns.displot(df, x=feature, bins=bins, color=color, kde=kde)
+        # Set the size of the figure explicitly using plt.figure()
+        plt.figure(figsize=(10, 5))
+
+        # Create the histogram plot with seaborn
+        sns.histplot(data=df, x=feature, bins=bins, color=color, kde=kde)
+
+        # Modify KDE line color if KDE is True
         if kde:
-            plt.gca().lines[-1].set_color(kde_color)  # Modify the KDE line color
+            plt.gca().lines[-1].set_color(kde_color)
+
+        # Set plot labels and title
         plt.title(f'Distribution of {feature}')
         plt.xlabel(feature)
         plt.ylabel('Frequency')
         plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+        # Show the plot
         plt.show()
+
 
     @staticmethod
     def create_bar_chart(df, feature, color='skyblue'):
