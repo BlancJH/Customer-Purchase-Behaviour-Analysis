@@ -1,10 +1,9 @@
 from sklearn.cluster import KMeans
 
-class FeatureEngeeniering():
+class FeatureEngineering():
 
     @staticmethod
     def k_means_cluster_bin(df, feature, cluster_number, random_state=42):
-
 
         # Reshape data for KMeans
         feature_values = df[feature].values.reshape(-1, 1)
