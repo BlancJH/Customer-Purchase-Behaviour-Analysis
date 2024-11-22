@@ -4,6 +4,21 @@ class FeatureEngineering():
 
     @staticmethod
     def k_means_cluster_bin(df, feature, cluster_number, random_state=42):
+        """
+        Apply K-means clustering to bin a numerical feature into clusters and create cluster labels.
+
+        Args:
+            df (DataFrame): The DataFrame containing the data.
+            feature (str): The column name of the numerical feature to be clustered.
+            cluster_number (int): The number of clusters to create.
+            random_state (int, optional): The random state for reproducibility. Default is 42.
+
+        Returns:
+            DataFrame: The DataFrame with new columns added for cluster labels and cluster names.
+                - '{feature}_cluster': The cluster label for each row.
+                - '{feature}_binned': The descriptive cluster label for each row.
+        """
+
 
         # Reshape data for KMeans
         feature_values = df[feature].values.reshape(-1, 1)
@@ -22,6 +37,22 @@ class FeatureEngineering():
     
     @staticmethod
     def feature_grouping_count(df, feature, groupby_feature):
+        """
+        Calculate the count and percentage of a categorical feature within each group defined by another feature.
+
+        Args:
+            df (DataFrame): The DataFrame containing the data.
+            feature (str): The column name of the categorical feature to be analyzed.
+            groupby_feature (str): The column name of the feature to group by (e.g., clusters).
+
+        Prints:
+            DataFrame: A DataFrame containing the count and percentage of each category within each group.
+                - '{groupby_feature}': The group (e.g., cluster).
+                - '{feature}': The categorical feature.
+                - 'count': The count of each category within each group.
+                - 'total_count': The total count for each group.
+                - 'percentage': The percentage of each category within each group.
+        """
         
         # Calculate the count of each category within each cluster
         feature_counts = df.groupby([f'{groupby_feature}', f'{feature}']).size().reset_index(name='count')
@@ -36,3 +67,4 @@ class FeatureEngineering():
         feature_counts['percentage'] = (feature_counts['count'] / feature_counts['total_count']) * 100
 
         print(feature_counts)
+        
