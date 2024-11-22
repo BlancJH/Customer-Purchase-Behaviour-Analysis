@@ -1,4 +1,5 @@
 from sklearn.cluster import KMeans
+import numpy as np
 
 class FeatureEngineering():
 
@@ -67,4 +68,27 @@ class FeatureEngineering():
         feature_counts['percentage'] = (feature_counts['count'] / feature_counts['total_count']) * 100
 
         print(feature_counts)
-        
+
+
+    @staticmethod
+    def identify_outliers(data, x_column):
+        """
+        Identify and return outliers in the specified column.
+
+        Args:
+            data (DataFrame): The dataset containing the data.
+            x_column (str): The column to check for outliers.
+
+        Returns:
+            Tuple: A tuple containing:
+                - Series: A pandas Series containing the outlier values.
+                - float: The lower bound used for outlier detection.
+                - float: The upper bound used for outlier detection.
+        """
+        q1 = np.percentile(data[x_column], 25)
+        q3 = np.percentile(data[x_column], 75)
+        iqr = q3 - q1
+        lower_bound = q1 - 1.5 * iqr
+        upper_bound = q3 + 1.5 * iqr
+        outliers = data[(data[x_column] < lower_bound) | (data[x_column] > upper_bound)][x_column]
+        return outliers, lower_bound, upper_bound

@@ -30,26 +30,6 @@ class Visualisation():
         plt.show()
 
     @staticmethod
-    def identify_outliers(data, x_column):
-        """
-        Identify and return outliers in the specified column.
-
-        Args:
-            data (DataFrame): The dataset containing the data.
-            x_column (str): The column to check for outliers.
-
-        Returns:
-            Series: A pandas Series containing the outlier values.
-        """
-        q1 = np.percentile(data[x_column], 25)
-        q3 = np.percentile(data[x_column], 75)
-        iqr = q3 - q1
-        lower_bound = q1 - 1.5 * iqr
-        upper_bound = q3 + 1.5 * iqr
-        outliers = data[(data[x_column] < lower_bound) | (data[x_column] > upper_bound)][x_column]
-        return outliers
-
-    @staticmethod
     def create_histogram(df, feature, bins=30, color='skyblue', kde=False, kde_color='red'):
         """
         Plots a histogram for a given feature.
