@@ -19,3 +19,20 @@ class FeatureEngineering():
         df[f'{feature}_binned'] = df[f'{feature}_cluster'].map(cluster_labels)
         
         return df
+    
+    @staticmethod
+    def feature_grouping_count(df, feature, groupby_feature):
+        
+        # Calculate the count of each category within each cluster
+        feature_counts = df.groupby([f'{groupby_feature}', f'{feature}']).size().reset_index(name='count')
+
+        # Calculate the total count for each cluster
+        total_counts = df.groupby(f'{groupby_feature}')[f'{feature}'].count().reset_index(name='total_count')
+
+        # Merge to get the total count per cluster for percentage calculation
+        feature_counts = feature_counts.merge(total_counts, on=f'{groupby_feature}')
+
+        # Calculate percentage
+        feature_counts['percentage'] = (feature_counts['count'] / feature_counts['total_count']) * 100
+
+        print(feature_counts)
